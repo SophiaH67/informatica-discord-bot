@@ -9,19 +9,19 @@ load_dotenv()
 client = discord.Client()
 cmds = {}
 prefix = os.getenv("prefix")
-def load_extensions():
+def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
         command = __import__("cmds.{}".format(commandFilePath.stem), fromlist=["get_aliases", "run"])
         for alias in command.get_aliases():
             cmds[alias] = command.run
 
-client.reload = load_extensions
+client.reload = load_commands
 
 @client.event
 async def on_ready():
     print('Logged in as {}'.format(client.user))
-    load_extensions()
+    load_commands()
 
 @client.event
 async def on_message(message):
