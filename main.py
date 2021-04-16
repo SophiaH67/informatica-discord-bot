@@ -16,6 +16,8 @@ def load_extensions():
         for alias in command.get_aliases():
             cmds[alias] = command.run
 
+client.reload = load_extensions
+
 @client.event
 async def on_ready():
     print('Logged in as {}'.format(client.user))
