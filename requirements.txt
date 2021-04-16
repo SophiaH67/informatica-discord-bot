@@ -2,3 +2,5 @@ discord
 python-dotenv
 sympy
 TenGiphPy
+cutlet
+unidic-lite
