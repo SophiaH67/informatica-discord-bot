@@ -32,7 +32,9 @@ async def on_message(message):
     args = message.content[len(prefix):].split(" ")
     command = args.pop(0)
     output = cmds[command](args, client)
-    if output:
-        await message.channel.send(str(output))    
+    if type(output) is str:
+        await message.channel.send(str(output))
+    elif type(output) is discord.Embed:
+        await message.channel.send(embed=output)
 
 client.run(os.getenv("token"))
