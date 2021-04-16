@@ -13,7 +13,7 @@ def run(args, bot):
         url = g.random(tag=" ".join(args) )
     except KeyError:
         return "No tenor API token was provided. This functionality will not work"
-    e = discord.Embed()
-    e.add_field(name="Gif", value=url, inline=False)
+    e = discord.Embed(title=" ".join(args))
+    e.set_image(url=url)
 
     return e
