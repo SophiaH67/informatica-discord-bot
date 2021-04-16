@@ -7,7 +7,11 @@ def floatToString(flt):
 def calculateABC(A, B, C):
     x = symbols('x')
     equation = Eq(A*x**2+B*x+C, 0)
-    return " or ".join(floatToString(v) for v in solve(equation))
+    solutions = solve(equation)
+    for solution in solutions:
+        if "sympy.core.add.Add" in str(type(solution)):
+            return "This formula no workie"
+    return " or ".join(floatToString(v) for v in solutions)
 
 def get_aliases():
     return ["calculateabc"]
