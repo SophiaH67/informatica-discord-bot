@@ -29,4 +29,5 @@ def run(args, bot):
         return "c is not a correct number"
     e = discord.Embed()
     e.add_field(name="{}x^2 + {}x + {} = 0".format(floatToString(a),floatToString(b),floatToString(c)), value=calculateABC(a,b,c))
+    e.color = 0x00FF00
     return e
