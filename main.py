@@ -5,6 +5,7 @@ import glob
 import importlib
 from pathlib import Path
 from urllib.parse import unquote
+import threading
 load_dotenv()
 
 client = discord.Client()
@@ -17,12 +18,21 @@ def load_commands():
         for alias in command.get_aliases():
             cmds[alias] = command.run
 
+def load_background_tasks():
+    for backgroundTask in glob.glob("./bg/*.py"):
+        backgroundTaskPath = Path(backgroundTask)
+        background = __import__("bg.{}".format(backgroundTaskPath.stem), fromlist=["run"])
+        thread = threading.Thread(target=background.start, args=(client,))
+        thread.daemon = True
+        thread.start()
+
 client.reload = load_commands
 
 @client.event
 async def on_ready():
     print('Logged in as {}'.format(client.user))
     load_commands()
+    load_background_tasks()
 
 @client.event
 async def on_message(message):
