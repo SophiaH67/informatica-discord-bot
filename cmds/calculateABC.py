@@ -1,5 +1,5 @@
 from sympy import symbols, Eq, solve
-
+import discord
 
 def calculateABC(A, B, C):
     x = symbols('x')
@@ -24,5 +24,6 @@ def run(args, bot):
         c = float(args[2])
     except:
         return "c is not a correct number"
-
-    return "```{}```".format(calculateABC(a,b,c))
+    e = discord.Embed()
+    e.add_field(name="{}x^2 + {}x + {}".format(str(a),str(b),str(c)), value=calculateABC(a,b,c))
+    return e
