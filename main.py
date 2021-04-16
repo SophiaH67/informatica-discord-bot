@@ -4,11 +4,12 @@ from dotenv import load_dotenv
 import glob
 import importlib
 from pathlib import Path
+from urllib.parse import unquote
 load_dotenv()
 
 client = discord.Client()
 cmds = {}
-prefix = os.getenv("prefix")
+prefix = unquote(os.getenv("prefix"))
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
