@@ -28,7 +28,7 @@ def sync(bot):
       stream_dict = {}
       title =  get_youtube_title(stream["youtube_url"])
       
-      if not any(term in title for term in interested):
+      if not any(term in title.lower() for term in interested):
         continue
       
       stream_dict["title"] = katsu.romaji(title)
