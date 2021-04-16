@@ -4,7 +4,7 @@ from sympy import symbols, Eq, solve
 def calculateABC(A, B, C):
     x = symbols('x')
     equation = Eq(A*x**2+B*x+C, 0)
-    return solve(equation)[0]
+    return " or ".join(('%.15f' % v).rstrip('0').rstrip('.') for v in solve(equation))
 
 def get_aliases():
     return ["calculateabc"]
