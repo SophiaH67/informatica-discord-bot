@@ -42,6 +42,8 @@ async def on_message(message):
         return
     args = message.content[len(prefix):].split(" ")
     command = args.pop(0)
+    if not command in cmds:
+        return
     output = cmds[command](args, client)
     if type(output) is str:
         await message.channel.send(str(output))
