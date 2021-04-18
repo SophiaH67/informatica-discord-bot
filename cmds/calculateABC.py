@@ -16,6 +16,9 @@ def calculateABC(A, B, C):
 def get_aliases():
     return ["calculateabc", "abc", "calculate", "quadratic"]
 
+def get_help():
+    return "Calculates quadratic formula"
+
 def run(args, bot):
     try:
         a = float(args[0])
