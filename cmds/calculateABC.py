@@ -14,7 +14,7 @@ def calculateABC(A, B, C):
     return " or ".join(floatToString(v) for v in solutions)
 
 def get_aliases():
-    return ["calculateabc"]
+    return ["calculateabc", "abc", "calculate", "quadratic"]
 
 def run(args, bot):
     try:
