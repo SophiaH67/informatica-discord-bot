@@ -8,6 +8,9 @@ g = TenGiphPy.Tenor(token=token)
 def get_aliases():
     return ["gif"]
 
+def get_help():
+    return "Searches and sends a GIF with query"
+
 def run(args, bot):
     try:
         url = g.random(tag=" ".join(args) )
