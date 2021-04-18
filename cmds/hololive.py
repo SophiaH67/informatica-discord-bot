@@ -4,6 +4,9 @@ import datetime
 def get_aliases():
   return ["hololive","schedule","holoschedule"]
 
+def get_help():
+  return "Gets interesting streams from hololive"
+
 def run(args, bot):
   e = discord.Embed(title="Hololive schedule")
   try:
