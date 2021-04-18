@@ -17,9 +17,7 @@ def load_commands():
         commandFilePath = Path(commandFile)
         command = __import__("cmds.{}".format(commandFilePath.stem), fromlist=["get_aliases", "run"])
         aliases = command.get_aliases()
-        if not command.get_category() in help:
-            help[command.get_category()] = []
-        help[command.get_category()][aliases[0]] = command.get_help()
+        help[aliases[0]] = command.get_help()
         for alias in aliases:
             cmds[alias] = command.run
 
