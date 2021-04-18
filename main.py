@@ -10,12 +10,17 @@ load_dotenv()
 
 client = discord.Client()
 cmds = {}
+help = {}
 prefix = unquote(os.getenv("prefix"))
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
         command = __import__("cmds.{}".format(commandFilePath.stem), fromlist=["get_aliases", "run"])
-        for alias in command.get_aliases():
+        aliases = command.get_aliases()
+        if not command.get_category() in help:
+            help[command.get_category()] = []
+        help[command.get_category()][aliases[0]] = command.get_help()
+        for alias in aliases:
             cmds[alias] = command.run
 
 def load_background_tasks():
