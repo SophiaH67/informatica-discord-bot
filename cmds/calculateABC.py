@@ -9,7 +9,7 @@ def calculateABC(A, B, C):
     equation = Eq(A*x**2+B*x+C, 0)
     solutions = solve(equation)
     for solution in solutions:
-        if "sympy.core.add.Add" in str(type(solution)):
+        if not type(solution) is float:
             return "This formula no workie"
     return " or ".join(floatToString(v) for v in solutions)
 
