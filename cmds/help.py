@@ -8,7 +8,7 @@ def get_help():
 def run(args, bot):
     e = discord.Embed(title="Help")
     e.color = 0x0000FF
-    for command, help_message in bot.help:
+    for i, (command, help_message) in enumerate(bot.help.items()):
         e.add_field(name=command, value=help_message)
     return e
     
