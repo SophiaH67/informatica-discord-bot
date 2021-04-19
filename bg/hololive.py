@@ -8,7 +8,7 @@ katsu = cutlet.Cutlet()
 katsu.use_foreign_spelling = False
 
 
-interested = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d"]
+interested = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
 
 def start(bot):
   sync(bot)
