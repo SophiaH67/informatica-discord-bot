@@ -42,7 +42,7 @@ def run(args, bot):
 
     entries.append("**[{}]({})**".format(stream["title"], stream["url"]))
     entries.append(stream["talent"])
-    entries.append("{}({})".format(time.humanize(), stream["datetime"].strftime("%H:%I %p")))
+    entries.append("{}({})".format(time.humanize(), stream["datetime"].strftime("%I:%M %p")))
       
   e.description = "\n".join(entries)
   return e
