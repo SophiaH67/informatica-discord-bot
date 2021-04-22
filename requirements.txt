@@ -5,3 +5,4 @@ TenGiphPy
 cutlet
 unidic-lite
 arrow
+tzlocal
