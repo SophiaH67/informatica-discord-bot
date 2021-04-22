@@ -33,9 +33,9 @@ def run(args, bot):
       if not len(entries) == 0:
         entries.append("")
       diff = datetime.datetime(date.year, date.month, date.day, current_time.hour, current_time.minute, current_time.second) - current_time
-      if diff.days < 1:
+      if diff.days < 0:
         entries.append("**today**")
-      elif diff.days == 1:
+      elif diff.days == 0:
         entries.append("**tomorrow**")
       else:
         entries.append("**in {} days".format(diff.days))
