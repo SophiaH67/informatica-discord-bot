@@ -2,6 +2,7 @@ import discord
 import datetime
 import arrow
 from typing import List
+from tzlocal import get_localzone
 
 def get_aliases():
   return ["hololive","schedule","holoschedule"]
@@ -39,10 +40,11 @@ def run(args, bot):
         entries.append("**tomorrow**")
       else:
         entries.append("**in {} days".format(diff.days))
-
+    offset_minutes = int(get_localzone().utcoffset(datetime.datetime.utcnow()).total_seconds() / 60)
+    
     entries.append("**[{}]({})**".format(stream["title"], stream["url"]))
     entries.append(stream["talent"])
-    entries.append("{}({})".format(time.humanize(), stream["datetime"].strftime("%I:%M %p")))
+    entries.append("{}({})".format(time.humanize(), (stream["datetime"] + datetime.timedelta(minutes=offset_minutes)).strftime("%I:%M %p")))
       
   e.description = "\n".join(entries)
   return e
