@@ -1,4 +1,4 @@
-from sympy import symbols, Eq, solve
+from sympy import symbols, Eq, solve, core
 import discord
 
 def floatToString(flt):
@@ -9,7 +9,7 @@ def calculateABC(A, B, C):
     equation = Eq(A*x**2+B*x+C, 0)
     solutions = solve(equation)
     for solution in solutions:
-        if not type(solution) is float:
+        if not type(solution) is core.numbers.Float:
             return "This formula no workie"
     return " or ".join(floatToString(v) for v in solutions)
 
