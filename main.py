@@ -1,4 +1,4 @@
-import discord
+from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import glob
@@ -8,10 +8,9 @@ from urllib.parse import unquote
 import threading
 load_dotenv()
 
-client = discord.Client()
 cmds = {}
-client.help = {}
 prefix = unquote(os.getenv("prefix"))
+client = commands.Bot(command_prefix=prefix)
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
