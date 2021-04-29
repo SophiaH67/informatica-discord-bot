@@ -1,4 +1,4 @@
-import discord
+from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import glob
@@ -8,18 +8,13 @@ from urllib.parse import unquote
 import threading
 load_dotenv()
 
-client = discord.Client()
-cmds = {}
-client.help = {}
 prefix = unquote(os.getenv("prefix"))
+client = commands.Bot(command_prefix=prefix)
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
-        command = __import__("cmds.{}".format(commandFilePath.stem), fromlist=["get_aliases", "run"])
-        aliases = command.get_aliases()
-        client.help[aliases[0]] = command.get_help()
-        for alias in aliases:
-            cmds[alias] = command.run
+        command_path = "cmds.{}".format(commandFilePath.stem)
+        client.load_extension(command_path)
 
 def load_background_tasks():
     for backgroundTask in glob.glob("./bg/*.py"):
@@ -29,28 +24,10 @@ def load_background_tasks():
         thread.daemon = True
         thread.start()
 
-client.reload = load_commands
-
 @client.event
 async def on_ready():
     print('Logged in as {}'.format(client.user))
     load_commands()
     load_background_tasks()
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if not message.content.startswith(prefix):
-        return
-    args = message.content[len(prefix):].split(" ")
-    command = args.pop(0)
-    if not command in cmds:
-        return
-    output = cmds[command](args, client)
-    if type(output) is str:
-        await message.channel.send(str(output))
-    elif type(output) is discord.Embed:
-        await message.channel.send(embed=output)
 
 client.run(os.getenv("token"))
