@@ -15,7 +15,7 @@ def calculateABC(A, B, C):
     return " or ".join(floatToString(v) for v in solutions)
 
 
-@commands.command(name="abc", aliases=["abcformula","calculate","solve"])
+@commands.command(name="abc", aliases=["abcformula","calculate","solve"], help="Calculates quadratic formula")
 async def run(ctx, input_a,input_b,input_c):
     try:
         a = float(input_a)
