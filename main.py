@@ -7,9 +7,10 @@ from pathlib import Path
 from urllib.parse import unquote
 import threading
 load_dotenv()
+from pretty_help import PrettyHelp
 
 prefix = unquote(os.getenv("prefix"))
-client = commands.Bot(command_prefix=prefix)
+client = commands.Bot(command_prefix=prefix, help_command=PrettyHelp())
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
