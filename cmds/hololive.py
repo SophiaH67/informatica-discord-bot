@@ -14,8 +14,13 @@ katsu = cutlet.Cutlet()
 katsu.use_foreign_spelling = False
 interested = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
 hololive_schedule = {}
+last_sync_unix = 0
 
 def sync():
+  global last_sync_unix
+  if (last_sync_unix + 30 * 60) > int(time.time()):
+    return
+  last_sync_unix = int(time.time())
   global hololive_schedule
   raw_schedule = requests.get("https://hololive-api.marnixah.com/").json()
   streams = []
