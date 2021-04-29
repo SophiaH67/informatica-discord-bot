@@ -114,3 +114,9 @@ async def run(ctx):
 
 def setup(bot):
   bot.add_command(run)
+
+def teardown(bot):
+  global last_sync_unix
+  global hololive_schedule
+  last_sync_unix = 0
+  hololive_schedule = {}
