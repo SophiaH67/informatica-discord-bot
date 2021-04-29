@@ -15,7 +15,8 @@ prefix = unquote(os.getenv("prefix"))
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
-        command = __import__("cmds.{}".format(commandFilePath.stem), fromlist=["get_aliases", "run"])
+        command_path = "cmds.{}".format(commandFilePath.stem)
+        command = __import__(command_path, fromlist=["get_aliases", "run"])
         aliases = command.get_aliases()
         client.help[aliases[0]] = command.get_help()
         for alias in aliases:
