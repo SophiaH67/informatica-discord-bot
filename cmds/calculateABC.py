@@ -1,5 +1,6 @@
 from sympy import symbols, Eq, solve, core
-import discord
+from discord.ext import commands
+from discord import Embed
 
 def floatToString(flt):
     return ('%.15f' % flt).rstrip('0').rstrip('.')
@@ -13,28 +14,27 @@ def calculateABC(A, B, C):
             return "This formula no workie"
     return " or ".join(floatToString(v) for v in solutions)
 
-def get_aliases():
-    return ["calculateabc", "abc", "calculate", "quadratic"]
 
-def get_help():
-    return "Calculates quadratic formula"
-
-def run(args, bot):
+@commands.command(name="abc", aliases=["abcformula","calculate","solve"])
+async def run(ctx, input_a,input_b,input_c):
     try:
-        a = float(args[0])
+        a = float(input_a)
     except:
-        return "a is not a correct number"
+        return await ctx.send("a is not a correct number")
 
     try:
-        b = float(args[1])
+        b = float(input_b)
     except:
-        return "b is not a correct number"
+        return await ctx.send("b is not a correct number")
 
     try:
-        c = float(args[2])
+        c = float(input_c)
     except:
-        return "c is not a correct number"
-    e = discord.Embed()
+        return await ctx.send("c is not a correct number")
+    e = Embed()
     e.add_field(name="{}x^2 + {}x + {} = 0".format(floatToString(a),floatToString(b),floatToString(c)), value=calculateABC(a,b,c))
     e.color = 0x00FF00
-    return e
+    return await ctx.send(embed=e)
+
+def setup(bot):
+    bot.add_command(run)
