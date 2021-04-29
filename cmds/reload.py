@@ -1,9 +1,16 @@
-def get_aliases():
-    return ["reload","refresh","werk"]
+from discord.ext import commands
+from discord.ext.commands.errors import ExtensionNotLoaded
+client = None
 
-def get_help():
-    return "Reloads all commands"
+@commands.command(name="reload", aliases=["refresh","werk"])
+async def run(ctx, command=""):
+    try:
+        client.reload_extension(f"cmds.{command}")
+    except ExtensionNotLoaded:
+        return await ctx.send(f"Unable to reload{command}")
+    return await ctx.send(f"Reloading {command} command!")
 
-def run(args, bot):
-    bot.reload()
-    return "Reloading all commands"
+def setup(bot):
+    global client
+    client = bot
+    bot.add_command(run)
