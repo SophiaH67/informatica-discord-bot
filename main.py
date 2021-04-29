@@ -15,11 +15,7 @@ def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
         command_path = "cmds.{}".format(commandFilePath.stem)
-        command = __import__(command_path, fromlist=["get_aliases", "run"])
-        aliases = command.get_aliases()
-        client.help[aliases[0]] = command.get_help()
-        for alias in aliases:
-            cmds[alias] = command.run
+        client.load_extension(command_path)
 
 def load_background_tasks():
     for backgroundTask in glob.glob("./bg/*.py"):
