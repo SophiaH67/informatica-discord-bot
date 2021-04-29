@@ -1,19 +1,15 @@
-import discord
+from discord.ext import commands
+from discord import Embed
 import datetime
 import arrow
 from typing import List
 from tzlocal import get_localzone
 
-def get_aliases():
-  return ["hololive","schedule","holoschedule"]
-
-def get_help():
-  return "Gets interesting streams from hololive"
-
-def run(args, bot):
-  e = discord.Embed(title="Hololive schedule")
+@commands.command(name="hololive", aliases=["schedule","holoschedule"])
+def run(ctx):
+  e = Embed(title="Hololive schedule")
   try:
-    for stream in bot.hololive_schedule:
+    for stream in hololive_schedule:
       pass
   except AttributeError:
     e.add_field(name="Error", value="There was an error with the hololive API")
@@ -25,7 +21,7 @@ def run(args, bot):
   current_day = -1
   current_time = datetime.datetime.now()
   
-  for stream in bot.hololive_schedule:
+  for stream in hololive_schedule:
     date: datetime.datetime = stream["datetime"]
     time = arrow.Arrow(date.year, date.month, date.day, date.hour, date.minute, date.second)
     
