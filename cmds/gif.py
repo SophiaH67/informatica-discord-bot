@@ -1,22 +1,21 @@
-import discord
+from discord.ext import commands
+from discord import Embed
 import TenGiphPy
 import os
 
 token = os.getenv("TENOR_TOKEN")
 g = TenGiphPy.Tenor(token=token)
 
-def get_aliases():
-    return ["gif"]
-
-def get_help():
-    return "Searches and sends a GIF with query"
-
-def run(args, bot):
+@commands.command(name="gif",aliases=["search"])
+async def run(ctx, *query):
     try:
-        url = g.random(tag=" ".join(args) )
+        url = g.random(tag=" ".join(query) )
     except KeyError:
-        return "No tenor API token was provided. This functionality will not work"
-    e = discord.Embed(title=" ".join(args))
+        return await ctx.send("No tenor API token was provided. This functionality will not work")
+    e = Embed(title=" ".join(query))
     e.set_image(url=url)
 
-    return e
+    return await ctx.send(embed=e)
+
+def setup(bot):
+    bot.add_command(run)
