@@ -72,7 +72,7 @@ def get_youtube_title(youtube_url):
         data = json.loads(response_text.decode())
         return data['title']
 
-@commands.command(name="hololive", aliases=["schedule","holoschedule"])
+@commands.command(name="hololive", aliases=["schedule","holoschedule"], help="Gets interesting streams from hololive")
 async def run(ctx):
   global hololive_schedule
   e = Embed(title="Hololive schedule")
