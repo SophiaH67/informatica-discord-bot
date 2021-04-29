@@ -15,20 +15,20 @@ def calculateABC(A, B, C):
     return " or ".join(floatToString(v) for v in solutions)
 
 
-@commands.command(name="abc", aliases=["abcformula","calculate","solve"])
-async def run(ctx, input_a,input_b,input_c):
+@commands.command(name="abc", aliases=["abcformula","calculate","solve"], help="Calculates quadratic formula")
+async def run(ctx, A,B,C):
     try:
-        a = float(input_a)
+        a = float(A)
     except:
         return await ctx.send("a is not a correct number")
 
     try:
-        b = float(input_b)
+        b = float(B)
     except:
         return await ctx.send("b is not a correct number")
 
     try:
-        c = float(input_c)
+        c = float(C)
     except:
         return await ctx.send("c is not a correct number")
     e = Embed()

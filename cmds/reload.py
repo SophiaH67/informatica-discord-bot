@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord.ext.commands.errors import ExtensionNotLoaded
 client = None
 
-@commands.command(name="reload", aliases=["refresh","werk"])
+@commands.command(name="reload", aliases=["refresh","werk"], help="Reloads a specified command")
 async def run(ctx, command=""):
     try:
         client.reload_extension(f"cmds.{command}")
