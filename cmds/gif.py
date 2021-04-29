@@ -6,7 +6,7 @@ import os
 token = os.getenv("TENOR_TOKEN")
 g = TenGiphPy.Tenor(token=token)
 
-@commands.command(name="gif",aliases=["search"])
+@commands.command(name="gif",aliases=["search"], help="Searches and sends a GIF with query")
 async def run(ctx, *query):
     try:
         url = g.random(tag=" ".join(query) )
