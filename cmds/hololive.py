@@ -29,13 +29,12 @@ def sync():
     date_day = day["date"].split("/")[1]
     for stream in day["schedules"]:
       stream_dict = {}
-      title = get_youtube_title(stream["youtube_url"])
+      stream["youtube_url"]
       
-      if not any(term in title.lower() for term in interested):
+      if not any(term in stream["title"].lower() for term in interested):
         continue
       
-      stream_dict["title"] = katsu.romaji(title)
-      
+      stream_dict["title"] = katsu.romaji(stream["title"])
       stream_dict["url"] = stream["youtube_url"]
       stream_dict["talent"] = katsu.romaji(stream["member"])
 
@@ -52,25 +51,6 @@ def sync():
       
       streams.append(stream_dict)
   hololive_schedule = streams
-
-def get_youtube_title(youtube_url):
-    params = {"format": "json", "url": youtube_url}
-    url = "https://www.youtube.com/oembed"
-    query_string = urllib.parse.urlencode(params)
-    url = url + "?" + query_string
-
-    req = urllib.request.Request(
-        url, 
-        data=None, 
-        headers={
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-        }
-    )
-
-    with urllib.request.urlopen(req) as response:
-        response_text = response.read()
-        data = json.loads(response_text.decode())
-        return data['title']
 
 @commands.command(name="hololive", aliases=["schedule","holoschedule"], help="Gets interesting streams from hololive")
 async def run(ctx):
