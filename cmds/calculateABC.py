@@ -1,11 +1,12 @@
 from sympy import symbols, Eq, solve, core
 from discord.ext import commands
 from discord import Embed
+from discord.ext.commands.context import Context
 
-def floatToString(flt):
+def floatToString(flt:float) -> str:
     return ('%.15f' % flt).rstrip('0').rstrip('.')
 
-def calculateABC(A, B, C):
+def calculateABC(A:float, B:float, C:float) -> str:
     x = symbols('x')
     equation = Eq(A*x**2+B*x+C, 0)
     solutions = solve(equation)
@@ -16,23 +17,9 @@ def calculateABC(A, B, C):
 
 
 @commands.command(name="abc", aliases=["abcformula","calculate","solve"], help="Calculates quadratic formula")
-async def run(ctx, A,B,C):
-    try:
-        a = float(A)
-    except:
-        return await ctx.send("a is not a correct number")
-
-    try:
-        b = float(B)
-    except:
-        return await ctx.send("b is not a correct number")
-
-    try:
-        c = float(C)
-    except:
-        return await ctx.send("c is not a correct number")
+async def run(ctx: Context, A: float, B:float, C:float):
     e = Embed()
-    e.add_field(name="{}x^2 + {}x + {} = 0".format(floatToString(a),floatToString(b),floatToString(c)), value=calculateABC(a,b,c))
+    e.add_field(name="{}x^2 + {}x + {} = 0".format(floatToString(A),floatToString(B),floatToString(C)), value=calculateABC(A,B,C))
     e.color = 0x00FF00
     return await ctx.send(embed=e)
 
