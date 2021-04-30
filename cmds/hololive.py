@@ -75,15 +75,14 @@ def get_youtube_title(youtube_url):
 @commands.command(name="hololive", aliases=["schedule","holoschedule"], help="Gets interesting streams from hololive")
 async def run(ctx):
   global hololive_schedule
-  e = Embed(title="Hololive schedule")
   try:
     sync()
   except AttributeError:
+    e = Embed(title="Hololive schedule")
     e.add_field(name="Error", value="There was an error with the hololive API")
     e.color = 0xFF0000
-    await ctx.send(embed=e)
+    return await ctx.send(embed=e)
 
-  e.color = 0x00FF00
   entries = []
   current_day = -1
   current_time = datetime.datetime.now()
@@ -108,9 +107,14 @@ async def run(ctx):
     entries.append("**[{}]({})**".format(stream["title"], stream["url"]))
     entries.append(stream["talent"])
     entries.append("{}({})".format(time.humanize(), (stream["datetime"] + datetime.timedelta(minutes=offset_minutes)).strftime("%I:%M %p")))
-      
-  e.description = "\n".join(entries)
-  await ctx.send(embed=e)
+
+  e = Embed(title="hololive schedule")
+  for entry in entries:
+    e.color = 0x00FF00
+    if len(str(e.description) + entry) > 2000:
+      await ctx.send(embed=e)
+      e = Embed()
+    e.description = str(e.description) + "\n" + entry
 
 def setup(bot):
   bot.add_command(run)
