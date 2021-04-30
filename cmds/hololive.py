@@ -88,13 +88,23 @@ async def run(ctx):
     entries.append(stream["talent"])
     entries.append("{}({})".format(time.humanize(), (stream["datetime"] + datetime.timedelta(minutes=offset_minutes)).strftime("%I:%M %p")))
 
+  embeds = []
   e = Embed(title="hololive schedule")
-  for entry in entries:
+  e.description = ""
+  
+  for i in range(len(entries)):
+    entry = entries[i]
     e.color = 0x00FF00
     if len(str(e.description) + entry) > 2000:
-      await ctx.send(embed=e)
+      embeds.append(e)
       e = Embed()
-    e.description = str(e.description) + "\n" + entry
+      e.description = ""
+    e.description += "\n" + entry
+    if i+1 == len(entries):
+      embeds.append(e)
+  for embed in embeds:
+    await ctx.send(embed=embed)
+  
 
 def setup(bot):
   bot.add_command(run)
