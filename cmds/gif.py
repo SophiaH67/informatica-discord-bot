@@ -12,6 +12,8 @@ async def run(ctx, *query):
         url = g.random(tag=" ".join(query) )
     except KeyError:
         return await ctx.send("No tenor API token was provided. This functionality will not work")
+    except IndexError:
+        return await ctx.send("Couldn't find any gifs with the query \"{}\"".format(" ".join(query)))
     e = Embed(title=" ".join(query))
     e.set_image(url=url)
 
