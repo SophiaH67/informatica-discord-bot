@@ -77,7 +77,7 @@ async def run(ctx):
   global hololive_schedule
   try:
     sync()
-  except AttributeError:
+  except:
     e = Embed(title="Hololive schedule")
     e.add_field(name="Error", value="There was an error with the hololive API")
     e.color = 0xFF0000
