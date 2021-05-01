@@ -7,7 +7,7 @@ async def run(ctx: commands.context.Context, command:str=""):
     try:
         client.reload_extension(f"cmds.{command}")
     except ExtensionNotLoaded:
-        return await ctx.send(f"Unable to reload{command}")
+        return await ctx.send(f"Unable to reload {command}")
     return await ctx.send(f"Reloading {command} command!")
 
 def setup(bot: commands.bot.Bot):
