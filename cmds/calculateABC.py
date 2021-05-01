@@ -1,6 +1,7 @@
 from sympy import symbols, Eq, solve, core
 from discord.ext import commands
 from discord import Embed
+from discord.ext.commands.context import Context
 
 def floatToString(flt:float) -> str:
     return ('%.15f' % flt).rstrip('0').rstrip('.')

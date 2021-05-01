@@ -1,5 +1,6 @@
 from discord.ext import commands
 from discord import Embed
+from discord.ext.commands.context import Context
 import TenGiphPy
 import os
 
