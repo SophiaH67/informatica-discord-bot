@@ -9,11 +9,13 @@ import datetime
 import time
 interested: List[str] = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
 streams: List[hololive.Stream] = []
-last_sync_unix = 0
+last_sync_unix: int = 0
 
 async def sync() -> None:
+  global last_sync_unix
   if int(time.time()) > (last_sync_unix + 30 * 60):
     global streams
+    last_sync_unix = int(time.time())
     streams = await hololive.get_streams()
 
 @commands.command(name="hololive", aliases=["schedule","holoschedule"], help="Gets interesting streams from hololive")
