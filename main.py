@@ -9,7 +9,7 @@ import threading
 load_dotenv()
 from pretty_help import PrettyHelp
 
-prefix = unquote(os.getenv("prefix"))
+prefix = unquote(os.getenv("PREFIX"))
 client = commands.Bot(command_prefix=prefix, help_command=PrettyHelp())
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
@@ -31,4 +31,4 @@ async def on_ready():
     load_commands()
     load_background_tasks()
 
-client.run(os.getenv("token"))
+client.run(os.getenv("TOKEN"))
