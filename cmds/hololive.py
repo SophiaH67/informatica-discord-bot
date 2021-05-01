@@ -4,59 +4,26 @@ import datetime
 import arrow
 from typing import List
 from tzlocal import get_localzone
-import requests
+from hololive import hololive
 import datetime
 import time
-import urllib
-import json
 import cutlet
 katsu = cutlet.Cutlet()
 katsu.use_foreign_spelling = False
 interested = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
-hololive_schedule = {}
+streams: List[hololive.Stream] = []
 last_sync_unix = 0
 
-def sync():
-  global last_sync_unix
-  if (last_sync_unix + 30 * 60) > int(time.time()):
-    return
-  last_sync_unix = int(time.time())
-  global hololive_schedule
-  raw_schedule = requests.get("https://hololive-api.marnixah.com/").json()
-  streams = []
-  for day in raw_schedule["schedule"]:
-    date_month = day["date"].split("/")[0]
-    date_day = day["date"].split("/")[1]
-    for stream in day["schedules"]:
-      stream_dict = {}
-      stream["youtube_url"]
-      
-      if not any(term in stream["title"].lower() for term in interested):
-        continue
-      
-      stream_dict["title"] = katsu.romaji(stream["title"])
-      stream_dict["url"] = stream["youtube_url"]
-      stream_dict["talent"] = katsu.romaji(stream["member"])
-
-      time_arr = stream["time"].split(":")
-      hour = int(time_arr[0])
-      minute = int(time_arr[1])
-
-      current_time = datetime.datetime.utcnow()
-      year = current_time.year
-
-      stream_dict["datetime"] = datetime.datetime(
-        year, int(date_month), int(date_day), hour, minute
-      ) - datetime.timedelta(hours=9)  # JST is 9 hours ahead of UTC
-      
-      streams.append(stream_dict)
-  hololive_schedule = streams
+async def sync():
+  if int(time.time()) > (last_sync_unix + 30 * 60):
+    global streams
+    streams = await hololive.get_streams()
 
 @commands.command(name="hololive", aliases=["schedule","holoschedule"], help="Gets interesting streams from hololive")
 async def run(ctx):
-  global hololive_schedule
+  global streams
   try:
-    sync()
+      await sync()
   except:
     e = Embed(title="Hololive schedule")
     e.add_field(name="Error", value="There was an error with the hololive API")
@@ -67,8 +34,10 @@ async def run(ctx):
   current_day = -1
   current_time = datetime.datetime.now()
   
-  for stream in hololive_schedule:
-    date: datetime.datetime = stream["datetime"]
+  for stream in streams:
+    if not any(term in stream.title_jp.lower() for term in interested):
+        continue
+    date: datetime.datetime = stream.starttime
     time = arrow.Arrow(date.year, date.month, date.day, date.hour, date.minute, date.second)
     
     if not current_day == date.day:
@@ -84,9 +53,9 @@ async def run(ctx):
         entries.append("**in {} days".format(diff.days))
     offset_minutes = int(get_localzone().utcoffset(datetime.datetime.utcnow()).total_seconds() / 60)
     
-    entries.append("**[{}]({})**".format(stream["title"], stream["url"]))
-    entries.append(stream["talent"])
-    entries.append("{}({})".format(time.humanize(), (stream["datetime"] + datetime.timedelta(minutes=offset_minutes)).strftime("%I:%M %p")))
+    entries.append("**[{}]({})**".format(stream.title_jp, stream.url))
+    entries.append(stream.talent_jp)
+    entries.append("{}({})".format(time.humanize(), (stream.starttime + datetime.timedelta(minutes=offset_minutes)).strftime("%I:%M %p")))
 
   embeds = []
   e = Embed(title="hololive schedule")

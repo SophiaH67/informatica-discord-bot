@@ -7,3 +7,4 @@ unidic-lite
 arrow
 tzlocal
 discord-pretty-help
+hololive
