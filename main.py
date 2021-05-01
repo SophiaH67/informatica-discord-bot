@@ -9,8 +9,8 @@ import threading
 load_dotenv()
 from pretty_help import PrettyHelp
 
-prefix = unquote(os.getenv("PREFIX"))
-client = commands.Bot(command_prefix=prefix, help_command=PrettyHelp())
+prefix: str = unquote(os.getenv("PREFIX") or "?")
+client: commands.bot.Bot = commands.Bot(command_prefix=prefix, help_command=PrettyHelp())
 def load_commands():
     for commandFile in glob.glob("./cmds/*.py"):
         commandFilePath = Path(commandFile)
