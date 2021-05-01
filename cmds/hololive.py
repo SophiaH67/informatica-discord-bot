@@ -7,9 +7,6 @@ from tzlocal import get_localzone
 from hololive import hololive
 import datetime
 import time
-import cutlet
-katsu = cutlet.Cutlet()
-katsu.use_foreign_spelling = False
 interested: List[str] = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
 streams: List[hololive.Stream] = []
 last_sync_unix = 0
