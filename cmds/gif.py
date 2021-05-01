@@ -1,6 +1,7 @@
 from discord.ext import commands
 from discord import Embed
 from discord.ext.commands.context import Context
+from typing import Tuple
 import TenGiphPy
 import os
 
@@ -8,7 +9,7 @@ token: str = os.getenv("TENOR_TOKEN") or ""
 g: TenGiphPy.Tenor = TenGiphPy.Tenor(token=token)
 
 @commands.command(name="gif",aliases=["search"], help="Searches and sends a GIF with query")
-async def run(ctx: commands.context.Context, *query: tuple[str, ...]):
+async def run(ctx: commands.context.Context, *query: Tuple[str, ...]):
     full_query = " ".join(''.join(word) for word in query)
     try:
         url: str = g.random(tag=full_query)
