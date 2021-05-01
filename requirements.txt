@@ -2,8 +2,6 @@ discord
 python-dotenv
 sympy
 TenGiphPy
-cutlet
-unidic-lite
 arrow
 tzlocal
 discord-pretty-help
