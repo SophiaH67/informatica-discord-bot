@@ -28,51 +28,48 @@ async def run(ctx: commands.context.Context):
     e.add_field(name="Error", value="There was an error with the hololive API")
     e.color = 0xFF0000
     return await ctx.send(embed=e)
-
-  entries = [""]
-  current_day = -1
-  current_time = datetime.datetime.now()
   
+  days = {}
   for stream in streams:
     if not any(term in stream.title_jp.lower() for term in interested):
-        continue
-    date: datetime.datetime = stream.starttime
-    time: arrow.Arrow = arrow.get(date)
-    diff = date.replace(hour=current_time.hour, minute=current_time.minute, second=current_time.second) - current_time
-    if diff.days <= -2:
       continue
-    
-    if not current_day == date.day:
-      current_day = date.day
-      if diff.days == -1:
-        entries.append("**today**")
-      elif diff.days == 0:
-        entries.append("**tomorrow**")
-      else:
-        entries.append("**in {} days**".format(diff.days))
-    offset_minutes = int(get_localzone().utcoffset(datetime.datetime.utcnow()).total_seconds() / 60)
-    
-    entries.append("**[{}]({})**".format(stream.title_jp, stream.url))
-    entries.append(stream.talent_jp)
-    entries.append("{}({})".format(time.humanize(), (stream.starttime + datetime.timedelta(minutes=offset_minutes)).strftime("%I:%M %p")))
+    current_time = datetime.datetime.now()
+    starttime = stream.starttime
+    delta = round((starttime - current_time.replace(hour=starttime.hour, minute=starttime.minute, second=starttime.second)).days)
+    try:
+      days[delta]
+    except:
+      days[delta] = []
+    days[delta].append(stream)
 
-  embeds: List[Embed] = []
-  e = Embed(title="hololive schedule")
-  e.description = ""
-  
-  for i in range(len(entries)):
-    entry: str = entries[i]
+  pages = []
+  offset_minutes = int(get_localzone().utcoffset(datetime.datetime.utcnow()).total_seconds() / 60) # offset from UTC in minutes
+  for day, day_streams in days.items():
+    e = Embed()
     e.color = 0x00FF00
-    if len(str(e.description) + entry) > 2000:
-      embeds.append(e)
-      e = Embed()
-      e.description = ""
-    e.description += "\n" + entry
-    if i+1 == len(entries):
-      embeds.append(e)
-  for embed in embeds:
-    await ctx.send(embed=embed)
-  
+    entries = []
+    if day < -2:
+      e.title = f"{(day+1) * -1} days ago"
+    elif day == -2:
+      e.title = "yesterday"
+    elif day == -1:
+      e.title = "today"
+    elif day == 0:
+      e.title = "tomorrow"
+    else:
+      e.title = day
+    for stream in day_streams:
+      stream_starttime: arrow.Arrow = arrow.get(stream.starttime)
+      entries.append("[{}]({})".format(stream.title_jp, stream.url))
+      entries.append(stream.talent_jp)
+      entries.append("{}({})".format(stream_starttime.humanize(), (stream.starttime + datetime.timedelta(minutes=offset_minutes)).strftime("%I:%M %p")))
+      entries.append("")
+    
+    e.description = "\n".join(entries)    
+    pages.append(e)
+    
+  for page in pages:
+    await ctx.send(embed=page)
 
 def setup(bot: commands.bot.Bot):
   bot.add_command(run)
