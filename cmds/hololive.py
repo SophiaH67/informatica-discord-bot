@@ -7,6 +7,8 @@ from tzlocal import get_localzone
 from hololive import hololive
 import datetime
 import time
+from pygicord import Paginator
+
 interested: List[str] = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
 streams: List[hololive.Stream] = []
 last_sync_unix: int = 0
@@ -68,8 +70,8 @@ async def run(ctx: commands.context.Context):
     e.description = "\n".join(entries)    
     pages.append(e)
     
-  for page in pages:
-    await ctx.send(embed=page)
+  paginator = Paginator(pages=pages, compact=True)
+  await paginator.start(ctx)
 
 def setup(bot: commands.bot.Bot):
   bot.add_command(run)

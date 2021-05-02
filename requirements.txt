@@ -6,3 +6,4 @@ arrow
 tzlocal
 discord-pretty-help
 hololive
+pygicord
