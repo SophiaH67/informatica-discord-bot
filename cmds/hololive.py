@@ -29,7 +29,7 @@ async def run(ctx: commands.context.Context):
     e.color = 0xFF0000
     return await ctx.send(embed=e)
 
-  entries = []
+  entries = [""]
   current_day = -1
   current_time = datetime.datetime.now()
   
@@ -41,8 +41,6 @@ async def run(ctx: commands.context.Context):
     
     if not current_day == date.day:
       current_day = date.day
-      if not len(entries) == 0:
-        entries.append("")
       diff = date - current_time
       if diff.days < 0:
         entries.append("**today**")
