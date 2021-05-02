@@ -41,13 +41,17 @@ async def run(ctx: commands.context.Context):
     
     if not current_day == date.day:
       current_day = date.day
-      diff = date - current_time
-      if diff.days < 0:
+      diff = date.replace(hour=current_time.hour, minute=current_time.minute, second=current_time.second) - current_time
+      if diff.days == -2:
+        entries.append("**yesterday**")
+      elif diff.days == -1:
         entries.append("**today**")
       elif diff.days == 0:
         entries.append("**tomorrow**")
+      elif diff.days < -2:
+        entries.append("**{} days ago**".format((diff.days +1) * -1))
       else:
-        entries.append("**in {} days".format(diff.days))
+        entries.append("**in {} days**".format(diff.days))
     offset_minutes = int(get_localzone().utcoffset(datetime.datetime.utcnow()).total_seconds() / 60)
     
     entries.append("**[{}]({})**".format(stream.title_jp, stream.url))
