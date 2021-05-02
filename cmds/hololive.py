@@ -38,18 +38,16 @@ async def run(ctx: commands.context.Context):
         continue
     date: datetime.datetime = stream.starttime
     time: arrow.Arrow = arrow.get(date)
+    diff = date.replace(hour=current_time.hour, minute=current_time.minute, second=current_time.second) - current_time
+    if diff.days <= -2:
+      continue
     
     if not current_day == date.day:
       current_day = date.day
-      diff = date.replace(hour=current_time.hour, minute=current_time.minute, second=current_time.second) - current_time
-      if diff.days == -2:
-        entries.append("**yesterday**")
-      elif diff.days == -1:
+      if diff.days == -1:
         entries.append("**today**")
       elif diff.days == 0:
         entries.append("**tomorrow**")
-      elif diff.days < -2:
-        entries.append("**{} days ago**".format((diff.days +1) * -1))
       else:
         entries.append("**in {} days**".format(diff.days))
     offset_minutes = int(get_localzone().utcoffset(datetime.datetime.utcnow()).total_seconds() / 60)
