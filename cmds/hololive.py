@@ -37,13 +37,13 @@ async def run(ctx: commands.context.Context):
     if not any(term in stream.title_jp.lower() for term in interested):
         continue
     date: datetime.datetime = stream.starttime
-    time: arrow.Arrow = arrow.Arrow(date.year, date.month, date.day, date.hour, date.minute, date.second)
+    time: arrow.Arrow = arrow.get(date)
     
     if not current_day == date.day:
       current_day = date.day
       if not len(entries) == 0:
         entries.append("")
-      diff = datetime.datetime(date.year, date.month, date.day, current_time.hour, current_time.minute, current_time.second) - current_time
+      diff = date - current_time
       if diff.days < 0:
         entries.append("**today**")
       elif diff.days == 0:
