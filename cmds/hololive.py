@@ -50,10 +50,8 @@ async def run(ctx: commands.context.Context):
     e = Embed()
     e.color = 0x00FF00
     entries = []
-    if day < -2:
-      e.title = f"{(day+1) * -1} days ago"
-    elif day == -2:
-      e.title = "yesterday"
+    if day < -1:
+      continue
     elif day == -1:
       e.title = "today"
     elif day == 0:
