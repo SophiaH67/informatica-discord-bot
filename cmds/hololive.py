@@ -9,7 +9,7 @@ import datetime
 import time
 from pygicord import Paginator
 
-interested: List[str] = ["🎤","歌","sing","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
+interested: List[str] = ["🎤","歌","sing","song","karaoke","asmr","ku100","archive","アーカイブなし","3d","3 d", "万"]
 streams: List[hololive.Stream] = []
 last_sync_unix: int = 0
 
