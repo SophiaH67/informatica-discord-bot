@@ -18,12 +18,10 @@ def load_commands():
         client.load_extension(command_path)
 
 def load_background_tasks():
-    for backgroundTask in glob.glob("./bg/*.py"):
-        backgroundTaskPath = Path(backgroundTask)
-        background = __import__("bg.{}".format(backgroundTaskPath.stem), fromlist=["run"])
-        thread = threading.Thread(target=background.start, args=(client,))
-        thread.daemon = True
-        thread.start()
+    for commandFile in glob.glob("./bg/*.py"):
+        commandFilePath = Path(commandFile)
+        command_path = "bg.{}".format(commandFilePath.stem)
+        client.load_extension(command_path)
 
 @client.event
 async def on_ready():
