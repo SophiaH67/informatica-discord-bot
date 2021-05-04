@@ -3,10 +3,8 @@ from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import glob
-import importlib
 from pathlib import Path
 from urllib.parse import unquote
-import threading
 load_dotenv()
 
 prefix: str = unquote(os.getenv("PREFIX") or "?")
