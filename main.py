@@ -30,5 +30,12 @@ async def on_ready():
     print('Logged in as {}'.format(client.user))
     load_commands()
     load_background_tasks()
-
-client.run(os.getenv("TOKEN"))
+    if os.path.exists('/tmp/'):
+        with open('/tmp/health', 'w') as file:
+            file.write("ok")
+try:
+    client.run(os.getenv("TOKEN"))
+except Exception as e:
+    if os.path.exists('/tmp/health'):
+        os.remove('/tmp/health')
+    raise e
