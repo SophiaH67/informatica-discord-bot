@@ -67,7 +67,12 @@ async def run(ctx: commands.context.Context):
     
     e.description = "\n".join(entries)    
     pages.append(e)
-    
+
+  if len(pages) == 0:
+    e = Embed(title="Hololive schedule")
+    e.add_field(name="Error", value="There are no interesting streams today")
+    e.color = 0xFF0000
+    return await ctx.send(embed=e)
   paginator = Paginator(pages=pages, compact=True)
   await paginator.start(ctx)
 
