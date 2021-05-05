@@ -25,11 +25,12 @@ async def run(ctx: commands.context.Context):
   global streams
   try:
       await sync()
-  except:
+  except Exception as ex:
     e = Embed(title="Hololive schedule")
     e.add_field(name="Error", value="There was an error with the hololive API")
     e.color = 0xFF0000
-    return await ctx.send(embed=e)
+    await ctx.send(embed=e)
+    raise ex
   
   days = {}
   for stream in streams:
