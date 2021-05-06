@@ -3,7 +3,7 @@ from discord import Embed
 import subprocess
 
 @commands.command(name="version", help="Gets version number")
-async def run(ctx: commands.context.Context, command:str=""):
+async def run(ctx: commands.context.Context):
   commit_hash = subprocess.check_output(["git", "describe", "--always"]).decode("utf-8")
   e = Embed(title="Current version")
   e.color = 0xFF00FF
