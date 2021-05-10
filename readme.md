@@ -14,3 +14,7 @@ docker run -it -d \
 ```
 
 Your discord bot should then come online and you should be able to use it with the prefix you defined in the variable.
+
+### Tenor token
+
+In order to obtain a tenor api token. Go to [the tenor developer dashboard](https://tenor.com/developer/dashboard), make an account, then create an app with any title and description. You will get a key which you can put in the TENOR_TOKEN environment variable
