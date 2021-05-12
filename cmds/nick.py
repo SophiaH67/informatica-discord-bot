@@ -1,6 +1,5 @@
 from discord.ext import commands
 from discord import Embed
-import subprocess
 from typing import Tuple
 
 @commands.command(name="nick", help="Changes bot nickname")
