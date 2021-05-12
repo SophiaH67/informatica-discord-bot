@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import glob
 from pathlib import Path
 from urllib.parse import unquote
+from sys import exit
 load_dotenv()
 
 prefix: str = unquote(os.getenv("PREFIX") or "?")
@@ -34,7 +35,11 @@ async def on_ready():
     with open('/tmp/health', 'w') as file:
       file.write("ok")
 try:
+  try:
     client.run(os.getenv("TOKEN"))
+  except AttributeError:
+    print("Please provide a discord token in the TOKEN environment variable")
+    exit(-1)
 except Exception as e:
   if os.path.exists('/tmp/health'):
     os.remove('/tmp/health')
