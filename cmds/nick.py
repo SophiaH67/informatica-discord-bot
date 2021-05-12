@@ -4,7 +4,7 @@ from typing import Tuple
 
 @commands.command(name="nick", help="Changes bot nickname")
 async def run(ctx: commands.context.Context, *nickname: Tuple[str, ...]):
-  nick = " ".join(nickname)
+  nick = " ".join(''.join(word) for word in nickname)
   await ctx.guild.me.edit(nick=nick)
   e = Embed(title="Success!")
   e.color = 0x00FF00
