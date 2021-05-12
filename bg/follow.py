@@ -28,6 +28,7 @@ class Events(commands.Cog):
       for member in members:
         member_count +=1
       if member_count > highest_count:
+        highest_count = member_count
         highest_channel = voice_channel
         
     if(highest_channel is None):
