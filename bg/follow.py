@@ -4,7 +4,7 @@ from discord.guild import Guild
 from discord.channel import VoiceChannel
 from discord.member import Member
 from typing import List
-
+from discord.errors import ClientException
 class Events(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
@@ -12,9 +12,10 @@ class Events(commands.Cog):
 
   @commands.Cog.listener()
   async def on_voice_state_update(self, member: Member, before: VoiceState, after: VoiceState):
-    if member._user.id == self.bot.user.id:
-      return
-    await self.join_biggest_vc(member.guild)
+    try:
+      await self.join_biggest_vc(member.guild)
+    except (ClientException, AttributeError):
+      pass
 
   async def join_biggest_vc(self, guild: Guild):
     voice_channels: List[VoiceChannel] = guild.voice_channels
