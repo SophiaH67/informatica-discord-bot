@@ -39,10 +39,10 @@ async def exec_code(code) -> str:
     global exitted
     exitted = True
   try:
-    output = eval(code)
+    output = str(eval(code))
   except Exception as e:
     output = str(e)
-  if len(output) == 0:
+  if output == "None":
     output = ":white_check_mark:"
   return output if not exitted else None
 @run.error
