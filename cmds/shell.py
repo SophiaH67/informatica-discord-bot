@@ -34,10 +34,6 @@ async def run(ctx: commands.context.Context):
       await ctx.send(message)
 
 async def exec_code(code) -> str:
-  exitted = False
-  def exit():
-    global exitted
-    exitted = True
   try:
     exec("global tmp; tmp = " + code)
     global tmp
@@ -46,7 +42,9 @@ async def exec_code(code) -> str:
     output = str(e)
   if output == "None" or output == "":
     output = ":white_check_mark:"
-  return output if not exitted else None
+  if output == ".exit":
+    output == ""
+  return output
 @run.error
 async def run_error(error, ctx):
   if isinstance(error, commands.CheckFailure):
