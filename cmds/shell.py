@@ -42,7 +42,7 @@ async def exec_code(code) -> str:
     output = str(e)
   if output == "None" or output == "":
     output = ":white_check_mark:"
-  if output == ".exit":
+  if code == ".exit":
     output == ""
   return output
 @run.error
