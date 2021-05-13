@@ -42,5 +42,8 @@ try:
     exit(-1)
 except Exception as e:
   if os.path.exists('/tmp/health'):
-    os.remove('/tmp/health')
+    try:
+      os.remove('/tmp/health')
+    except Exception:
+      pass
   raise e
