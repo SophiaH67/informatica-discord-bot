@@ -37,7 +37,7 @@ async def exec_code(code) -> str:
   try:
     exec("global tmp; tmp = " + code)
     global tmp
-    output = tmp.decode("utf-8")
+    output = tmp.decode("utf-8").replace("\n", "\n\r")
   except Exception as e:
     output = str(e)
   if output == "None" or output == "":
