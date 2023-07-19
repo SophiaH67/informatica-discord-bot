@@ -5,6 +5,6 @@ TenGiphPy
 arrow
 tzlocal
 discord-pretty-help
-hololive
+hololive==0.0.18
 pygicord
 PyNaCl

@@ -23,5 +23,5 @@ async def run(ctx: commands.context.Context, A: float, B:float, C:float):
     e.color = 0x00FF00
     return await ctx.send(embed=e)
 
-def setup(bot: commands.bot.Bot):
+async def setup(bot: commands.bot.Bot):
     bot.add_command(run)
