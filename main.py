@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 from pretty_help import PrettyHelp
 from discord.ext import commands
 from discord import Intents
